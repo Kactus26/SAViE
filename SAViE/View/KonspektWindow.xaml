@@ -1,0 +1,145 @@
+﻿<Window x:Class="SAViE.View.KonspektWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:SAViE.ViewModels"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:local="clr-namespace:SAViE.View"
+        mc:Ignorable="d"
+        Title="SAViE" Height="1080" Width="1920" WindowState="Maximized">
+
+    <Window.DataContext>
+        <vm:KonspektViewModel/>
+    </Window.DataContext>
+
+    <Window.Resources>
+        <Style x:Key="GridViewColumnHeaderStyle1" TargetType="{x:Type GridViewColumnHeader}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type GridViewColumnHeader}">
+                        <Border BorderThickness="0,0,0,2" BorderBrush="#FFA3F0FF">
+                            <TextBlock x:Name="ContentHeader" Text="{TemplateBinding Content}" FontSize="30" Padding="35,5,5,10" Width="{TemplateBinding Width}" TextAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="Button">
+            <Style.Setters>
+                <Setter Property="Foreground" Value="Black"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border x:Name="MyBackgroundElement" BorderBrush="#A3F0FF" BorderThickness="2">
+                                <Border.Background>
+                                    <SolidColorBrush Color="White"/>
+                                </Border.Background>
+                                <ContentPresenter x:Name="ButtonContentPresenter" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="MyBackgroundElement" Property="Background">
+                                        <Setter.Value>
+                                            <SolidColorBrush Color="#A3F0FF"/>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter Property="Cursor" Value="Hand" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style.Setters>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Foreground" Value="BLack"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+
+
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="1.5*"/>
+            <RowDefinition Height="1.5*"/>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="7*"/>
+            <RowDefinition Height="3*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="17*"/>
+            <ColumnDefinition Width="193*"/>
+            <ColumnDefinition Width="750*"/>
+        </Grid.ColumnDefinitions>
+
+        <Line Stroke="#A3F0FF" Grid.RowSpan="6" StrokeThickness="3" X1="1" Y1="0" X2="1" Y2="1080" Grid.Column="1" Grid.Row="0" Margin="0,0,0,0"/>
+        <Line Stroke="#A3F0FF" Grid.Column="1" Grid.RowSpan="6" StrokeThickness="3" X1="308" Y1="0" X2="308" Y2="1080"/>
+        <Line Stroke="#A3F0FF" Grid.Column="0" Grid.Row="1"  Grid.ColumnSpan="3" StrokeThickness="3" X1="0" Y1="1" X2="1920" Y2="1" Margin="0,0,0,0"/>
+        <Line Stroke="#A3F0FF" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" StrokeThickness="3" X1="0" Y1="68" X2="1920" Y2="68"/>
+
+        <Button Command="{Binding EFCreateNote}" Grid.Column="1" Grid.Row="1" FontFamily="pack://#Manrope-ExtraLight.ttf" FontSize="30" Margin="0,0,0,-1">Добавить конспект</Button>
+        <Button Command="{Binding EFCreateTopic}" Grid.Column="1" Grid.Row="2" FontSize="30" Margin="0,-1,0,0">Добавить раздел</Button>
+
+        <TextBox Text="{Binding NoteName}" Grid.Column="1" Grid.Row="3" Margin="0,30,0,32" BorderBrush="#FFA3F0FF" BorderThickness="2.3" FontSize="30" TextWrapping="Wrap" TextAlignment="Center" Foreground="#FFAE9797"/>
+
+        <ListView Grid.Column="1" Grid.Row="4" SelectedItem="{Binding SelectedNote}" ItemsSource="{Binding NotesList}" FontSize="24" Foreground="Black" BorderThickness="2" BorderBrush="#FFA3F0FF">
+            <ListView.View>
+                <GridView ColumnHeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle1}" >
+                    <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Ваши конспекты"/>
+                </GridView>
+            </ListView.View>
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction Command="{Binding NoteSelected}" CommandParameter="{Binding SelectedNote}"></i:InvokeCommandAction>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#FFA3F0FF"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ListView.ItemContainerStyle>
+        </ListView>
+
+        <ListView Grid.Column="3" Grid.Row="1" Grid.RowSpan="2" BorderThickness="1" ItemsSource="{Binding SelectedNoteTopicList}" SelectedItem="{Binding SelectedTopic}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden" FontSize="24" Foreground="Black" BorderBrush="#FFA3F0FF" Margin="0,0,0,0">
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid/>
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+            <ListView.View>
+                <GridView ColumnHeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle1}" >
+                    <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Разделы"/>
+                </GridView>
+            </ListView.View>
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction Command="{Binding TopicSelected}" CommandParameter="{Binding SelectedTopic}"></i:InvokeCommandAction>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </ListView>
+
+        <Button  Command="{Binding EFDeleteNote}" CommandParameter="{Binding SelectedNote}" Grid.Column="1" Grid.Row="5" FontSize="30" Margin="0,27,0,27">Удалить</Button>
+
+        <TextBox Grid.Column="2" Grid.Row="3" Grid.ColumnSpan="2" Grid.RowSpan="4" Text="{Binding TopicText, UpdateSourceTrigger=PropertyChanged}" 
+                 FontSize="18" FontFamily="Calibri"  HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" 
+                 TextWrapping="Wrap" TextAlignment="Justify" AcceptsTab="True" AcceptsReturn="True" BorderBrush="#FFA3F0FF"/>
+
+        <Image Grid.Column="2" Grid.Row="5" HorizontalAlignment="Right" VerticalAlignment="Center" Cursor="Hand" Height="90" Width="90" Source="/View/Save.png" Margin="0,0,20,0">
+            <Image.InputBindings>
+                <MouseBinding Gesture="LeftClick" Command="{Binding EFUpdate}"/>
+            </Image.InputBindings>
+        </Image>
+
+    </Grid>
+</Window>

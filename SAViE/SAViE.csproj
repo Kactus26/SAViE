@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net7.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="anime-no-game-no-life-94744.jpg" />
+    <None Remove="View\anime-no-game-no-life-94744 - Копировать.jpg" />
+    <None Remove="View\Images\Save.png" />
+    <None Remove="View\Images\scale_600.jpg" />
+    <None Remove="View\Save.png" />
+    <None Remove="View\Savie.png" />
+    <None Remove="View\scale_600.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.9" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="View\KonspektWindow.xaml">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Page>
+    <Page Update="View\MainWindow.xaml">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="View\Images\Save.png" />
+    <Resource Include="View\Images\scale_600.jpg" />
+    <Resource Include="View\Save.png" />
+    <Resource Include="View\Savie.png" />
+  </ItemGroup>
+
+</Project>
